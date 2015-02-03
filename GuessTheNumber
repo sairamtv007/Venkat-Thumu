@@ -1,0 +1,130 @@
+package com.collegeboard.codetest;
+
+import java.io.Console;
+
+
+/**
+ * @author Venkat Thumu
+ *
+ */
+public class GuessTheNumber {
+
+	/**
+	 * Range for the GuessTheNumber Game. low to high.
+	 */
+	private int low,high;
+
+	private Integer guessedNumber=null;
+
+
+	/**
+	 * Console to capture the user input
+	 */
+	Console c ;
+
+	/**
+	 * Default Constructor. This defaults the number range for the game to 1 - 100.
+	 */
+	public GuessTheNumber()
+	{
+		//To make it configurable the range can be read from property file.
+		this(1,100);
+	}
+
+	/**
+	 * Parametrised constructor to set the number range for the game.
+	 * This also sets the Console for user input.
+	 *
+	 * @param min range from
+	 * @param max range to
+	 */
+	public GuessTheNumber(int min, int max)
+	{
+		c = System.console();
+		this.low=min;
+		this.high=max;
+	}
+
+
+	public static void main(String[] args) {
+		GuessTheNumber gn = new GuessTheNumber();
+        gn.guessTheNumber();
+	}
+
+
+    /**
+     * Main processing for the Guess the number game.
+     * This displays initial prompts for the Game including the range to choose the number from.
+     * This also calls the guess method which actually guesses the number.
+     */
+    public void guessTheNumber()
+    {
+        if (c == null) {
+            System.err.println("No console available.");
+        }
+
+        System.out.println("Now choose a number between "+low+" and "+high);
+		String ready = c.readLine("Hit Enter when you are ready:");
+        System.out.println("\n\n\n\n");
+        System.out.println("enter h/H if your number is Higher\nenter l/L if your number is Lower\nenter y/Y if this is your number\n");
+		guess();
+	}
+
+
+    /**
+     * This method reads the user feedback on the guessed number.
+     * If the feedback is y (Yes) then it ends the game otherwise it calls the process method.
+     */
+    public void guess()
+	{
+		String feedback = "l";
+		if(guessedNumber==null)
+		{
+			guessedNumber=high;
+		}else{
+			feedback = c.readLine("Is the number: "+guessedNumber+"\n");
+		}
+
+		if("y".equalsIgnoreCase(feedback))
+		{
+			c.readLine("your number is :"+guessedNumber);
+			String msg = c.readLine("Thank you for playing ");
+		}else{
+			guessedNumber = process(feedback, guessedNumber);
+			guess();
+		}
+
+
+	}
+
+	/**
+	 * This method returns the number guess based on the user feedback.
+	 * The feedback can only be one of the following.
+	 * enter h/H if your number is Higher
+	 * enter l/L if your number is Lower
+	 * enter y/Y if this is your number
+	 *
+	 * @param feedback user input(feedback) on the guessed number.
+  	 * @param guessedNumber guessed number.
+	 * @return it returns the next guess number based on the feedback.
+	 */
+	public int process(String feedback, int guessedNumber)
+	{
+		if("h".equalsIgnoreCase(feedback))
+		{
+			low=guessedNumber;
+		}
+		else if("l".equalsIgnoreCase(feedback))
+		{
+			high=guessedNumber;
+		}
+		else
+		{
+			System.out.println("\nenter h/H if your number is Higher\nenter l/L if your number is Lower\nenter y/Y if this is your number\n");
+		}
+		int guessnum = low +(high-low)/2;
+
+		return guessnum;
+	}
+
+}
