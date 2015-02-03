@@ -1,0 +1,20 @@
+package com.collegeboard.codetest;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Assert;
+public class GuessTheNumberTest {
+
+	GuessTheNumber objGuessNumber = null;
+
+	@Before
+	public void setUp() throws Exception {
+		objGuessNumber = new GuessTheNumber();
+	}
+
+	@Test
+	public void test_50() {
+		int answer = objGuessNumber.process("h",50);
+		Assert.assertEquals(75,answer);
+	}
+}
